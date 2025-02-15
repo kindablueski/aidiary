@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <title>Wellness Quiz - Question {{ current_qid }} of {{ total_questions }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h2>Wellness Quiz</h2>
+    <h3>Question {{ current_qid }} of {{ total_questions }}</h3>
+    <form method="POST" action="{{ url_for('quiz.quiz_question', qid=current_qid) }}">
+        <div class="question">
+            <p>{{ question.id }}. {{ question.question }}</p>
+            <label>
+                <input type="radio" name="answer" value="0" required> 0
+            </label>
+            <label>
+                <input type="radio" name="answer" value="1"> 1
+            </label>
+            <label>
+                <input type="radio" name="answer" value="2"> 2
+            </label>
+            <label>
+                <input type="radio" name="answer" value="3"> 3
+            </label>
+        </div>
+        <button type="submit">
+            {% if current_qid < total_questions %}Next{% else %}Submit Quiz{% endif %}
+        </button>
+    </form>
+</body>
+</html>

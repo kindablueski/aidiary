@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <title>Wellness Progress</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Your Wellness Progress Over Time</h2>
+    <canvas id="progressChart" width="600" height="400"></canvas>
+    <p><a href="{{ url_for('diary.diary') }}">Back to Diary</a></p>
+    <script>
+        fetch("{{ url_for('diary.api_progress') }}")
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: [{
+                        label: 'Wellness Score',
+                        data: data.scores,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Wellness Score'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

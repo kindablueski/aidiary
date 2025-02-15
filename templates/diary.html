@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Diary</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    .navbar { margin-bottom: 20px; }
+    .main-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .sidebar {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .tip-section {
+      margin-top: 20px;
+      background-color: #e9ecef;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    /* Chart container styling */
+    .chart-container {
+      margin-bottom: 10px;
+    }
+    #trendMessage {
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    /* Accordion styling for past entries */
+    .accordion .card-header {
+      padding: .5rem 1.25rem;
+    }
+    .entry-content {
+      font-size: 0.9em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url_for('diary.diary') }}">My Diary</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Main Content: Diary Entry Submission -->
+      <div class="col-md-8">
+        <div class="main-content">
+          <h2>Write a New Entry</h2>
+          <!-- Display current wellness score -->
+          <div class="mb-3">
+            <h5>Your current wellness score: {{ current_wellness }}/100</h5>
+          </div>
+          <!-- Diary Entry Form -->
+          <form action="{{ url_for('diary.add_entry') }}" method="POST">
+            <div class="form-group">
+              <textarea name="content" class="form-control" placeholder="Write your diary entry here..." rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Entry</button>
+          </form>
+
+          <!-- Most Recent Tip Section (only 'tip' category messages) -->
+          {% with flashed = get_flashed_messages(with_categories=true) %}
+            {% if flashed %}
+              <div class="tip-section">
+                <h5>Tip / Note:</h5>
+                {% for category, message in flashed %}
+                  {% if category == 'tip' %}
+                    <p>{{ message }}</p>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      <!-- Sidebar: Wellness Trend Chart and Past Diary Entries -->
+      <div class="col-md-4">
+        <div class="sidebar">
+          <!-- Chart Container -->
+          <div class="chart-container">
+            <canvas id="wellnessChart" width="400" height="250"></canvas>
+          </div>
+          <!-- Trend Message -->
+          <div id="trendMessage"></div>
+          <!-- Past Entries Accordion -->
+          <h4>Past Entries</h4>
+          <div class="accordion" id="entriesAccordion">
+            {% for entry in entries %}
+              <div class="card">
+                <div class="card-header" id="heading{{ loop.index }}">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                      {{ entry.created_at|format_date }}
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#entriesAccordion">
+                  <div class="card-body entry-content">
+                    <p>{{ entry.content }}</p>
+                    <hr>
+                    <p><em>Analysis:</em> {{ entry.analysis }}</p>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <p>No past entries yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script to load and display wellness trend chart and trend message -->
+  <script>
+    fetch("{{ url_for('diary.api_progress') }}")
+      .then(response => response.json())
+      .then(data => {
+        const dates = data.dates;
+        const scores = data.scores;
+        
+        // Create the chart using Chart.js
+        const ctx = document.getElementById('wellnessChart').getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dates,  // Data ordering only; labels will not be displayed
+            datasets: [{
+              label: 'Wellness Score',
+              data: scores,
+              fill: false,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              x: {
+                display: false  // Hide x-axis labels for a cleaner look
+              },
+              y: {
+                suggestedMin: 0,
+                suggestedMax: 100
+              }
+            }
+          }
+        });
+        
+        // Analyze the trend with threshold logic
+        let trendMessage = "";
+        if (scores.length >= 2) {
+          const last = scores[scores.length - 1];
+          const prev = scores[scores.length - 2];
+          
+          if (last < 50) {
+            trendMessage = "Your current wellness score is below 50. It might help to talk to a trusted adult or do something you enjoy. You’re not alone.";
+          } else if (last > prev + 3) {
+            trendMessage = "You're on the right track!";
+          } else if (last < prev - 3) {
+            trendMessage = "You might need to take some action. Consider reaching out to someone you trust.";
+          } else {
+            trendMessage = "Your trend is steady.";
+          }
+        } else {
+          trendMessage = "Not enough data to determine trend.";
+        }
+        
+        document.getElementById("trendMessage").innerText = trendMessage;
+      })
+      .catch(error => console.error('Error fetching progress data:', error));
+  </script>
+</body>
+</html>

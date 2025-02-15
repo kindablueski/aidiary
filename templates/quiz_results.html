@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <title>Quiz Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .results { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Quiz Results</h2>
+    <div class="results">
+        <p>Your initial wellness score is: <strong>{{ wellness }}/100</strong></p>
+        {% if symptoms %}
+            <h3>Symptoms Detected:</h3>
+            <ul>
+                {% for symptom in symptoms %}
+                    <li>{{ symptom }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No significant symptoms were detected based on your responses.</p>
+        {% endif %}
+    </div>
+    <p><a href="{{ url_for('diary.diary') }}">Continue to your Diary</a></p>
+</body>
+</html>
