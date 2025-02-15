@@ -154,89 +154,65 @@ def get_symptom_severity(answer):
         return "Moderate"
     elif answer == 3:
         return "Severe"
-
 def get_custom_tip(content, tags):
     """
     Generate feedback and suggestions based on the diary entry.
+    For a positive diary entry (with a positive compound sentiment), provide encouraging words.
+    Otherwise, provide suggestions based on the detected negative tags.
     """
     subject = detect_subject(content)
     analysis = []
-  
-    if "depressed" in tags:
-        if subject == "self":
-            analysis.append(
-                "You seem very down today. It might help to talk to a trusted adult about how you're feeling."
-            )
-        else:
-            analysis.append(
-                "It looks like your friend is feeling very depressed. Encourage them to speak with someone they trust."
-            )
-  
-    if "low_self_worth" in tags:
-        if subject == "self":
-            analysis.append(
-                "Feeling not good enough is tough. Try writing or talking about what makes you special."
-            )
-        else:
-            analysis.append(
-                "Your friend might be feeling low about themselves. Reminding them of their strengths could help."
-            )
-  
-    if "sleep_issues" in tags:
-        if subject == "self":
-            analysis.append(
-                "Trouble sleeping can be hard. A calming bedtime routine might help you get better rest."
-            )
-        else:
-            analysis.append(
-                "If your friend is having trouble sleeping, suggesting a quiet routine before bed could be useful."
-            )
-  
-    if "low_energy" in tags:
-        if subject == "self":
-            analysis.append(
-                "Feeling low on energy can be a sign of deeper sadness. A short walk or a fun activity might help."
-            )
-        else:
-            analysis.append(
-                "If your friend seems low on energy, maybe invite them to do something fun together."
-            )
-  
-    if "concentration_issues" in tags:
-        if subject == "self":
-            analysis.append(
-                "Having trouble focusing can be frustrating. Taking short breaks might help you concentrate better."
-            )
-        else:
-            analysis.append(
-                "If your friend is struggling to concentrate, suggest a short break or a change of activity."
-            )
-  
-    if "psychomotor_changes" in tags:
-        if subject == "self":
-            analysis.append(
-                "If you're feeling restless or slow, try some stretching or light exercise."
-            )
-        else:
-            analysis.append(
-                "Encouraging your friend to move around a bit might help if they seem restless."
-            )
-  
-    if "suicidal_ideation" in tags:
-        if subject == "self":
-            analysis.append(
-                "Your entry shows severe distress. Please reach out immediately to a trusted adult or professional."
-            )
-        else:
-            analysis.append(
-                "It appears your friend is in serious distress. Urge them to seek help from a trusted adult immediately."
-            )
-  
-    if not analysis:
-        analysis.append(
-            "Your entry shows some challenging feelings. Consider talking to someone you trust about what you're experiencing."
-        )
-  
+    
+    # Compute sentiment using VADER
+    sentiment = analyzer.polarity_scores(content)
+    compound = sentiment["compound"]
+    
+    # If overall sentiment is positive, give encouraging feedback.
+    if compound > 0.3:
+        analysis.append("It looks like you had a really positive day! Keep up the great work and continue doing what makes you happy!")
+    else:
+        # Provide suggestions only if certain negative tags are present (i.e., moderate or severe issues).
+        if "depressed" in tags:
+            if subject == "self":
+                analysis.append("You seem very down today. It might help to talk to a trusted adult about how you're feeling.")
+            else:
+                analysis.append("It looks like your friend is feeling very depressed. Encourage them to speak with someone they trust.")
+        if "low_self_worth" in tags:
+            if subject == "self":
+                analysis.append("Feeling not good enough is tough. Try writing or talking about what makes you special.")
+            else:
+                analysis.append("Your friend might be feeling low about themselves. Reminding them of their strengths could help.")
+        if "sleep_issues" in tags:
+            if subject == "self":
+                analysis.append("Trouble sleeping can be hard. A calming bedtime routine might help you get better rest.")
+            else:
+                analysis.append("If your friend is having trouble sleeping, suggesting a quiet routine before bed could be useful.")
+        if "low_energy" in tags:
+            if subject == "self":
+                analysis.append("Feeling low on energy can be a sign of deeper sadness. A short walk or a fun activity might help.")
+            else:
+                analysis.append("If your friend seems low on energy, maybe invite them to do something fun together.")
+        if "concentration_issues" in tags:
+            if subject == "self":
+                analysis.append("Having trouble focusing can be frustrating. Taking short breaks might help you concentrate better.")
+            else:
+                analysis.append("If your friend is struggling to concentrate, suggest a short break or a change of activity.")
+        if "psychomotor_changes" in tags:
+            if subject == "self":
+                analysis.append("If you're feeling restless or slow, try some stretching or light exercise.")
+            else:
+                analysis.append("Encouraging your friend to move around a bit might help if they seem restless.")
+        if "suicidal_ideation" in tags:
+            if subject == "self":
+                analysis.append("Your entry shows severe distress. Please reach out immediately to a trusted adult or professional.")
+            else:
+                analysis.append("It appears your friend is in serious distress. Urge them to seek help from a trusted adult immediately.")
+        
+        # If no negative tags were detected, but the sentiment isn't strongly positive,
+        # offer a gentle suggestion.
+        if not analysis:
+            analysis.append("Your entry shows some challenging feelings. Consider talking to someone you trust about what you're experiencing.")
+    
     return " ".join(analysis)
 
 def update_current_wellness(user_id, new_entry_score, get_db_connection):

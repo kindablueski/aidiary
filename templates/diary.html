@@ -54,6 +54,14 @@
       font-size: 0.9em;
       color: #333;
     }
+    /* Latest entry analysis styling */
+    .latest-analysis {
+      background-color: #d9edf7;
+      border: 1px solid #bce8f1;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -71,10 +79,19 @@
 
   <div class="container-fluid">
     <div class="row">
-      <!-- Main Content: Diary Entry Submission -->
+      <!-- Main Content: Diary Entry Submission and Latest Analysis -->
       <div class="col-md-8">
         <div class="main-content">
           <h2>Write a New Entry</h2>
+          
+          <!-- Display most recent diary entry analysis if available -->
+          {% if recent_entry %}
+            <div class="latest-analysis">
+              <h5>Most Recent Entry ({{ recent_entry.created_at|format_date }}):</h5>
+              <p>{{ recent_entry.analysis }}</p>
+            </div>
+          {% endif %}
+          
           <!-- Display current wellness score -->
           <div class="mb-3">
             <h5>Your current wellness score: {{ current_wellness }}/100</h5>

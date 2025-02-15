@@ -20,10 +20,14 @@ def diary():
         flash("Please take the quiz first to get your initial wellness score.", "info")
         conn.close()
         return redirect(url_for('quiz.quiz_start'))
+    # Retrieve all entries (ordered by most recent first)
     entries = cur.execute('SELECT * FROM entries WHERE user_id = ? ORDER BY created_at DESC', (user_id,)).fetchall()
     user = cur.execute('SELECT current_wellness FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
-    return render_template('diary.html', entries=entries, current_wellness=user['current_wellness'])
+    # The most recent entry is the first one if available.
+    recent_entry = entries[0] if entries else None
+    return render_template('diary.html', entries=entries, current_wellness=user['current_wellness'], recent_entry=recent_entry)
+
 
 @diary_bp.route('/add', methods=['POST'])
 def add_entry():
