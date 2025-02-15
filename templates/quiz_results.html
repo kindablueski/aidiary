@@ -4,24 +4,56 @@
     <title>Quiz Results</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
-        .results { margin-bottom: 20px; }
+        .results { margin-top: 20px; }
+        .suggestions { margin-top: 20px; background-color: #f9f9f9; padding: 15px; border-radius: 5px; }
+        .diary-button {
+            margin-top: 30px;
+        }
+        .diary-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h2>Quiz Results</h2>
+    <p>Your initial wellness score is: {{ wellness }}/100</p>
+    
+    <!-- Display the image based on the score -->
     <div class="results">
-        <p>Your initial wellness score is: <strong>{{ wellness }}/100</strong></p>
-        {% if symptoms %}
-            <h3>Symptoms Detected:</h3>
+        <img src="{{ image_file }}" alt="Wellness Indicator" style="max-width: 300px;">
+    </div>
+
+    <!-- Display detected symptoms -->
+    {% if symptoms %}
+        <h3>Detected Symptoms:</h3>
+        <ul>
+            {% for symptom in symptoms %}
+                <li>{{ symptom }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <!-- Display suggestions if any (only for moderate to severe symptoms) -->
+    {% if suggestions %}
+        <div class="suggestions">
+            <h3>Suggestions:</h3>
             <ul>
-                {% for symptom in symptoms %}
-                    <li>{{ symptom }}</li>
+                {% for suggestion in suggestions %}
+                    <li>{{ suggestion }}</li>
                 {% endfor %}
             </ul>
-        {% else %}
-            <p>No significant symptoms were detected based on your responses.</p>
-        {% endif %}
+        </div>
+    {% else %}
+        <p>No specific suggestions. Keep up the good work!</p>
+    {% endif %}
+    
+    <!-- Button to navigate to the diary -->
+    <div class="diary-button">
+        <a href="{{ url_for('diary.diary') }}">
+            <button type="button">Go to Diary</button>
+        </a>
     </div>
-    <p><a href="{{ url_for('diary.diary') }}">Continue to your Diary</a></p>
 </body>
 </html>

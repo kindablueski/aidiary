@@ -13,18 +13,11 @@
     <form method="POST" action="{{ url_for('quiz.quiz_question', qid=current_qid) }}">
         <div class="question">
             <p>{{ question.id }}. {{ question.question }}</p>
-            <label>
-                <input type="radio" name="answer" value="0" required> 0
-            </label>
-            <label>
-                <input type="radio" name="answer" value="1"> 1
-            </label>
-            <label>
-                <input type="radio" name="answer" value="2"> 2
-            </label>
-            <label>
-                <input type="radio" name="answer" value="3"> 3
-            </label>
+            {% for value, label in answer_choices.items() %}
+                <label>
+                    <input type="radio" name="answer" value="{{ value }}" required> {{ label }}
+                </label>
+            {% endfor %}
         </div>
         <button type="submit">
             {% if current_qid < total_questions %}Next{% else %}Submit Quiz{% endif %}
