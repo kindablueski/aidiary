@@ -28,12 +28,18 @@
       color: #000000;
       padding: 20px;
       border-radius: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      /* Added subtle border */
+      border: 1px solid #ccc;
+      outline: 3px solid #000;  /* Broad outline */
+      outline-offset: 0px;      
+      
     }
     .main-content {
-      margin-top: 30px;
+      margin-top: 0px;
     }
+
     .latest-analysis {
       background-color: #d9d9d9;
       border: 1px solid #b3b3b3;
@@ -71,6 +77,14 @@
     .entry-content {
       font-family: "Comic Sans MS", cursive, sans-serif;
       color: #000000 !important;
+      background-image: url('{{ url_for('static', filename='images/backgroundpaper.png') }}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      padding: 10px;
+      border-radius: 5px;
+      min-height: 200px;  /* Adjust this value as needed */
+      border: 1px solid #ccc;
+      
     }
     .analysis-text {
       font-family: "Comic Sans MS", cursive, sans-serif;
@@ -97,6 +111,14 @@
     }
     textarea {
       font-family: "Comic Sans MS", cursive, sans-serif !important;
+      background-image: url('{{ url_for('static', filename='images/backgroundpaper.png') }}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      padding: 10px;
+      border-radius: 5px;
+      min-height: 200px; 
+      font-size: 18px;          
+      border: 1px solid #ccc;
     }
   </style>
 </head>
@@ -194,7 +216,7 @@
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: dates,  // Dates are still tracked
+            labels: dates,
             datasets: [{
               label: 'Wellness Score',
               data: scores,
@@ -207,7 +229,7 @@
             scales: {
               x: {
                 ticks: {
-                  display: false  // Hide the date indexes
+                  display: false
                 },
                 grid: {
                   display: false
