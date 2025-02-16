@@ -1,22 +1,138 @@
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            {% if category == 'login' %}  <!-- Only show login-related messages -->
-                <div class="alert alert-info">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
 {% extends 'base.html' %}
 {% block content %}
-<h2>Login</h2>
-<form method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Login</button>
-</form>
-<p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a>.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <style>
+    /* 
+      Make the page fill the full browser window and use flexbox 
+      to center everything both horizontally and vertically.
+    */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      background-color: #023047; /* Dark navy background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: #023047; /* Default text color (will override in container if needed) */
+    }
+
+    /* 
+      The container that holds the form, making it larger so it 
+      doesn't look like just background behind a tiny form.
+    */
+    .login-container {
+      background-color: #8ecae6;   /* Lighter blue background for contrast */
+      width: 550px;               /* Increase width to occupy more space */
+      padding: 40px;
+      border-radius: 8px;
+      border: 2px solid #219ebc;  /* Slightly darker blue border */
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;         /* Center text within the container */
+    }
+
+    .login-container h2 {
+      margin-top: 0;
+      color: #023047;            /* Dark navy text for the heading */
+    }
+
+    /* Flash messages (if any) */
+    .alert.alert-info {
+      background-color: #fb8500;
+      color: #ffffff;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    /* Form styling */
+    form {
+      display: inline-block;      /* Inline-block so it shrinks to content width */
+      width: 100%;                /* Occupy container’s width for the inputs */
+      text-align: left;           /* Left-align labels and fields inside */
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #023047;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 90%;                /* Almost full width */
+      height: 50px;              /* Taller input boxes */
+      font-size: 16px;
+      padding: 8px;
+      border: 2px solid #219ebc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    /* Submit button styling */
+    button[type="submit"] {
+      margin-top: 20px;
+      background-color: #fb8500;  /* Orange */
+      color: #ffffff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #ffb703; /* Lighter orange on hover */
+      color: #023047;
+    }
+
+    /* Link styling */
+    a {
+      color: #023047;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Display flash messages if any -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'login' %}
+          <div class="alert alert-info">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Container to center and enlarge the form area -->
+  <div class="login-container">
+    <h2>Login</h2>
+    <form method="POST">
+      <label>Username:</label>
+      <input type="text" name="username" required>
+
+      <label>Password:</label>
+      <input type="password" name="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p style="margin-top: 20px;">
+      Don't have an account?
+      <a href="{{ url_for('auth.register') }}">Register here</a>.
+    </p>
+  </div>
+
+</body>
+</html>
 {% endblock %}
+

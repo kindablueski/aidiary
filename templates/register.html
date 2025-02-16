@@ -1,12 +1,106 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Register</h2>
-<form method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Register</button>
-</form>
-<p>Already have an account? <a href="{{ url_for('auth.login') }}">Log in here</a>.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <style>
+    /* Ensure full height for vertical centering */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    /* Dark background for the page with flex centering */
+    body {
+      background-color: #023047;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: #023047;
+    }
+    /* Container to hold the form with a contrasting light background */
+    .login-container {
+      background-color: #8ecae6;
+      width: 550px;
+      padding: 40px;
+      border-radius: 8px;
+      border: 2px solid #219ebc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-top: 0;
+      color: #023047;
+    }
+    /* Form styling */
+    form {
+      display: inline-block;
+      width: 100%;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #023047;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 90%;
+      height: 50px;
+      font-size: 16px;
+      padding: 8px;
+      border: 2px solid #219ebc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    /* Submit button styling */
+    button[type="submit"] {
+      margin-top: 20px;
+      background-color: #fb8500;
+      color: #ffffff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #ffb703;
+      color: #023047;
+    }
+    /* Link styling */
+    a {
+      color: #023047;
+      text-decoration: underline;
+    }
+    p {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Register</h2>
+    <form method="POST">
+      <label>Username:</label>
+      <input type="text" name="username" required>
+
+      <label>Password:</label>
+      <input type="password" name="password" required>
+
+      <button type="submit">Register</button>
+    </form>
+    <p>
+      Already have an account?
+      <a href="{{ url_for('auth.login') }}">Log in here</a>.
+    </p>
+  </div>
+</body>
+</html>
 {% endblock %}
+

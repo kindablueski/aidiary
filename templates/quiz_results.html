@@ -1,59 +1,131 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-    <title>Quiz Results</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .results { margin-top: 20px; }
-        .suggestions { margin-top: 20px; background-color: #f9f9f9; padding: 15px; border-radius: 5px; }
-        .diary-button {
-            margin-top: 30px;
-        }
-        .diary-button button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Quiz Results</title>
+  <style>
+    /* Full-page dark blue background with white text overall */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #023047; /* Dark blue background */
+      color: #ffffff;
+    }
+    /* Centered container for the quiz results */
+    .results-container {
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 40px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 36px;
+      margin: 0;
+    }
+    .wellness-score {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 10px 0 20px;
+    }
+    .results-img img {
+      max-width: 300px;
+      margin-top: 20px;
+    }
+    /* Flex container for the boxes */
+    .boxes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    /* Styling for both boxes with white background and dark blue text */
+    .box {
+      background-color: #ffffff; /* White background in the boxes */
+      color: #023047; /* Dark blue text in the boxes */
+      flex: 1 1 300px; /* Responsive width with a minimum width */
+      padding: 20px;
+      border: 2px solid #023047;
+      border-radius: 8px;
+      text-align: left;
+    }
+    .box h3 {
+      font-size: 26px;
+      margin-top: 0;
+      border-bottom: 2px solid #023047;
+      padding-bottom: 8px;
+    }
+    .box li {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+    .box p {
+      font-size: 18px;
+    }
+    /* Diary button styling */
+    .diary-button {
+      margin-top: 30px;
+    }
+    .diary-button button {
+      padding: 12px 24px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #fb8500;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+    .diary-button button:hover {
+      background-color: #ffb703;
+      transform: scale(1.05);
+      color: #023047;
+    }
+  </style>
 </head>
 <body>
+  <div class="results-container">
     <h2>Quiz Results</h2>
-    <p>Your initial wellness score is: {{ wellness }}/100</p>
+    <p class="wellness-score">Your initial wellness score is: {{ wellness }}/100</p>
     
-    <!-- Display the image based on the score -->
-    <div class="results">
-        <img src="{{ image_file }}" alt="Wellness Indicator" style="max-width: 300px;">
+    <div class="results-img">
+      <img src="{{ image_file }}" alt="Wellness Indicator">
     </div>
-
-    <!-- Display detected symptoms -->
-    {% if symptoms %}
+    
+    <div class="boxes">
+      {% if symptoms %}
+      <div class="box">
         <h3>Detected Symptoms:</h3>
         <ul>
-            {% for symptom in symptoms %}
-                <li>{{ symptom }}</li>
-            {% endfor %}
+          {% for symptom in symptoms %}
+            <li>{{ symptom }}</li>
+          {% endfor %}
         </ul>
-    {% endif %}
-    
-    <!-- Display suggestions if any (only for moderate to severe symptoms) -->
-    {% if suggestions %}
-        <div class="suggestions">
-            <h3>Suggestions:</h3>
-            <ul>
-                {% for suggestion in suggestions %}
-                    <li>{{ suggestion }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% else %}
-        <p>No specific suggestions. Keep up the good work!</p>
-    {% endif %}
-    
-    <!-- Button to navigate to the diary -->
-    <div class="diary-button">
-        <a href="{{ url_for('diary.diary') }}">
-            <button type="button">Go to Diary</button>
-        </a>
+      </div>
+      {% endif %}
+      
+      <div class="box">
+        <h3>Suggestions:</h3>
+        {% if suggestions %}
+          <ul>
+            {% for suggestion in suggestions %}
+              <li>{{ suggestion }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No specific suggestions. Keep up the good work!</p>
+        {% endif %}
+      </div>
     </div>
+    
+    <div class="diary-button">
+      <a href="{{ url_for('diary.diary') }}">
+        <button type="button">Go to Diary</button>
+      </a>
+    </div>
+  </div>
 </body>
 </html>
+
