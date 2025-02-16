@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindWell - Your Personalized Mental Health Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #023047;
+      color: #023047;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: transparent;
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 20px;
+      align-items: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 12px 24px;
+      background: #023047;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    nav a:hover {
+      background: #fb8500;
+      transform: scale(1.1);
+    }
+    section {
+      padding: 100px 20px 50px; /* extra top padding to offset fixed nav */
+    }
+    /* Resources container: stacked vertically */
+    .resources-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+    .resource-card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      width: 90%;  /* nearly full width of the page */
+      color: #023047;
+      transition: all 0.3s;
+      text-align: left;
+    }
+    .resource-card:hover {
+      transform: scale(1.02);
+      border: 3px solid #fb8500;
+    }
+    .resource-card h3 {
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+    .resource-card h4 {
+      margin: 15px 0 5px;
+      font-size: 1.2rem;
+    }
+    .resource-card p {
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+    .interactive-btn {
+      background: linear-gradient(45deg, #ffb703, #fb8500);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s;
+      display: block;
+      margin: 15px auto 0;
+    }
+    .interactive-btn:hover {
+      background: linear-gradient(45deg, #fb8500, #ffb703);
+      transform: scale(1.1);
+    }
+    /* Style for each exercise block */
+    .exercise {
+      margin-bottom: 20px;
+    }
+    .exercise img {
+      width: 150px; /* small image size */
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    /* Additional sections styling */
+    .section-card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      margin: 20px auto;
+      color: #023047;
+      transition: all 0.3s;
+      text-align: left;
+    }
+    .section-card:hover {
+      transform: scale(1.02);
+      border: 3px solid #fb8500;
+    }
+    footer {
+      background: #023047;
+      color: white;
+      padding: 20px 0;
+      margin-top: auto;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div style="position: absolute; left: 20px; font-size: 2rem; font-weight: bold; color: white; text-transform: uppercase; letter-spacing: 2px;">
+      MindWell
+    </div>
+    <!-- Updated Resources button links to homepage.html -->
+    <a href="homepage.html">Homepage</a>
+    <a href="#diagnostic">Diagnostic Tool</a>
+    <a href="#support">AI Support</a>
+  </nav>
+
+  <!-- Resources Section with Exercise Images -->
+  <section id="resources">
+    <div class="resources-container">
+      <!-- Stress Management Card -->
+      <div class="resource-card">
+        <h3>Stress Management</h3>
+        <div class="exercise">
+          <img src="breathing.jpg" alt="Deep Breathing Exercise">
+          <h4>Deep Breathing Exercise</h4>
+          <p>
+            Sit comfortably and close your eyes. Slowly inhale through your nose for 4 seconds, hold for 4 seconds, then exhale through your mouth for 6 seconds. Repeat 4 to 6 times to lower your heart rate and ease stress.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="relax.jpg" alt="Progressive Muscle Relaxation">
+          <h4>Progressive Muscle Relaxation</h4>
+          <p>
+            Starting at your feet, tense the muscles for 5 seconds, then release for 10 seconds. Gradually move upward through your body, focusing on each muscle group to relieve physical tension.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="visualization.png" alt="Visualization Technique">
+          <h4>Visualization Technique</h4>
+          <p>
+            Close your eyes and imagine a peaceful place—a beach or forest. Engage your senses by picturing the colors, sounds, and smells. Stay with this image for a few minutes to shift focus from stress.
+          </p>
+        </div>
+        
+      </div>
+
+      <!-- Anxiety Relief Card -->
+      <div class="resource-card">
+        <h3>Anxiety Relief</h3>
+        <div class="exercise">
+          <img src="mind.jpg" alt="Mindfulness Meditation">
+          <h4>Mindfulness Meditation</h4>
+          <p>
+            Find a quiet space and sit comfortably. Focus on your breath and let thoughts pass without judgment. Stay with each breath for several minutes, gently returning your focus when distracted.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="grounding.png" alt="Grounding Technique">
+          <h4>Grounding Technique</h4>
+          <p>
+            Reconnect with the present by identifying 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. This helps divert focus from anxious thoughts.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="affirmations.jpg" alt="Positive Affirmations">
+          <h4>Positive Affirmations</h4>
+          <p>
+            Choose positive affirmations like "I am calm" or "I deserve peace." Repeat them aloud or silently several times to help replace negative thought patterns with a positive mindset.
+          </p>
+        </div>
+       
+      </div>
+
+      <!-- Depression Card -->
+      <div class="resource-card">
+        <h3>Depression</h3>
+        <div class="exercise">
+          <img src="journal.png" alt="Journaling">
+          <h4>Journaling</h4>
+          <p>
+            Dedicate a few minutes each day to write down your thoughts and feelings. Reflect on experiences and moods to process emotions and identify patterns over time.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="exercise.jpg" alt="Physical Activity">
+          <h4>Physical Activity</h4>
+          <p>
+            Engage in moderate exercise like a brisk walk or yoga. Regular physical activity can help boost your mood, increase energy, and create a healthy routine.
+          </p>
+        </div>
+        <div class="exercise">
+          <img src="social.png" alt="Social Connection">
+          <h4>Social Connection</h4>
+          <p>
+            Make time to connect with supportive friends or family. Even a short conversation or shared activity can uplift your mood and remind you that you're not alone.
+          </p>
+        </div>
+       
+      </div>
+    </div>
+  </section>
+
+  
+
+  <footer>
+    &copy; 2025 MindWell. All rights reserved.
+  </footer>
+</body>
+</html>

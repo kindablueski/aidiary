@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell - Your Personalized Mental Health Hub</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #023047;
+            color: #023047;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 20px;
+            align-items: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 12px 24px;
+            background: #023047;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background: #fb8500;
+            transform: scale(1.1);
+        }
+        section {
+            padding: 80px 20px 50px; /* Adjusted padding to account for fixed nav */
+        }
+        .resource-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 270px;
+            height: 270px;
+            color: #023047;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .resource-card:hover {
+            transform: scale(1.05);
+            border: 3px solid #fb8500;
+        }
+        .resources-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .interactive-btn {
+            background: linear-gradient(45deg, #ffb703, #fb8500);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .interactive-btn:hover {
+            background: linear-gradient(45deg, #fb8500, #ffb703);
+            transform: scale(1.1);
+        }
+        .hero-btn {
+            margin-top: 0px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ffb703, #fb8500);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hero-btn:hover {
+            background: linear-gradient(45deg, #fb8500, #ffb703);
+            transform: scale(1.1);
+        }
+        footer {
+            background: #023047;
+            color: white;
+            padding: 20px 0;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div style="position: absolute; left: 20px; font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: bold; color: white; text-transform: uppercase; letter-spacing: 2px;">MindWell</div>
+        <a href="destinations.html">Resources</a>
+        <a href="#dashboard">Diary</a>
+        <a href="#support">Log in</a>
+    </nav>
+    <section style="background: url('background.jpg') no-repeat center center/cover; height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h1 style="font-size: 4rem; color: white;">Your Mental Well-being, <span style="background: linear-gradient(45deg, #ffb703, #fb8500); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Personalized</span></h1>
+        <button class="hero-btn" onclick="location.href='#diagnostic'">Take a Diagnostic Quiz</button>
+    </section>
+    <section id="resources">
+        <div class="resources-container">
+            <div class="resource-card">
+                <h3>Stress Management</h3>
+                <p>Learn techniques to manage stress effectively.</p>
+                <button class="interactive-btn" onclick="location.href='destinations.html'">Learn More</button>
+            </div>
+            <div class="resource-card">
+                <h3>Anxiety Relief</h3>
+                <p>Guided exercises and mindfulness practices.</p>
+                <button class="interactive-btn" onclick="location.href='destinations.html'">Get Started</button>
+            </div>
+            <div class="resource-card">
+                <h3>Mindfulness</h3>
+                <p>Daily techniques to improve mental clarity and focus.</p>
+                <button class="interactive-btn" onclick="location.href='destinations.html'">Try Now</button>
+            </div>
+        </div>
+    </section>
+    <footer>
+        &copy; 2025 MindWell. All rights reserved.
+    </footer>
+    <script>
+        function showMessage(topic) {
+            alert(`More information about ${topic} will be available soon!`);
+        }
+    </script>
+</body>
+</html>
