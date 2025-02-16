@@ -143,14 +143,9 @@ def compute_wellness_score(text):
     max_phq9 = sum(category["points"] for category in PHQ9_CATEGORIES)
     keyword_score = int(100 * (max_phq9 - phq9_score) / max_phq9)
 
-    # Revised TextBlob Sentiment Analysis Calculation:
-    # Map sentiment polarity (range: -1 to 1) to a score on a 0-100 scale.
-    # Neutral (0) will be 50, strongly negative (-1) will be 0, and strongly positive (1) will be 100.
     sentiment = TextBlob(text).sentiment.polarity
     sentiment_score = int(50 + (sentiment * 50))
-
-    # Reweight the combination: give more influence to the sentiment score.
-    # For example, use 30% weight for the keyword score and 70% weight for the sentiment score.
+.
     combined_score = int(0.25 * keyword_score + 0.75 * sentiment_score)
 
     # Log details (optional)
