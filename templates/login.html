@@ -4,127 +4,175 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login</title>
+  <title>Login - MindWell</title>
   <style>
-    
     html, body {
       margin: 0;
-      padding: 0;
+      padding: 10;
       height: 100%;
+      width: 100%;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      overflow: hidden;
     }
-    body {
-      background-color: #023047; 
+
+    /* Fullscreen background diary */
+    .diary-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url("{{ url_for('static', filename='images/backgrounddiary.webp') }}") no-repeat center center;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
-      color: #023047;
     }
 
-   
-    .login-container {
-      background-color: #8ecae6;   
-      width: 550px;             
-      padding: 40px;
-      border-radius: 8px;
-      border: 2px solid #219ebc;  
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      text-align: center;        
+    /* Main content structure aligned with the diary pages */
+    .content-wrapper {
+      width: 80%;
+      max-width: 1100px;
+      height: 80vh;
+      display: flex;
+      justify-content: space-between;
     }
 
-    .login-container h2 {
-      margin-top: 0;
-      color: #023047;           
+    /* Left page: Title, tagline, description */
+    .left-page {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-left: 63px; /* Move text to the right */
+      padding: 20px;
     }
 
+    .left-page h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      max-width: 300px;
+      margin-left: 30px; /* Move further right */
+      margin-top: 90px; /* Move further down */
+    }
 
-    .alert.alert-info {
-      background-color: #fb8500;
-      color: #ffffff;
-      padding: 10px;
+    .left-page h2 {
+      font-size: 1.8rem;
       margin-bottom: 20px;
-      border-radius: 4px;
+      max-width: 300px;
+    }
+
+    .left-page p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      max-width: 300px;
+      font-weight: bold;
+    }
+
+    /* Right page: Logo & Login form */
+    .right-page {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Login form styling */
+    .form-container {
+      background: transparent;
+      padding: 30px;
+      width: 80%;
+      max-width: 270px;
+      border-radius: none;
+      border: none;
+      text-align: center;
+      margin-right: 170px; /* Move further right */
+      margin-top: 50px;
+    }
+
+    .form-container h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
     }
 
     form {
-      display: inline-block;      
-      width: 100%;                
-      text-align: left;          
+      width: 100%;
     }
 
     label {
       display: block;
-      margin: 15px 0 5px;
       font-weight: bold;
-      color: #023047;
+      margin-top: 15px;
     }
 
     input[type="text"],
     input[type="password"] {
-      width: 90%;                
-      height: 50px;              
+      width: 100%;
+      padding: 10px;
       font-size: 16px;
-      padding: 8px;
-      border: 2px solid #219ebc;
-      border-radius: 4px;
-      box-sizing: border-box;
+      margin-top: 5px;
+      border: 2px solid #000;
+      border-radius: 5px;
     }
 
-   
     button[type="submit"] {
       margin-top: 20px;
-      background-color: #fb8500; 
-      color: #ffffff;
-      border: none;
-      padding: 15px 30px;
+      width: 100%;
+      padding: 12px;
       font-size: 16px;
-      border-radius: 4px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
+
     button[type="submit"]:hover {
-      background-color: #ffb703; 
-      color: #023047;
-    }
-
-
-    a {
-      color: #023047;
-      text-decoration: underline;
+      background-color: #444;
     }
   </style>
 </head>
 <body>
+  <div class="diary-container">
+    <div class="content-wrapper">
+      
+      <!-- Left Page: Title, Tagline & Description -->
+      <div class="left-page">
+        <h1>MindWell</h1>
+        <h2>AI assistance for your mental health journey</h2>
+        <p>
+          Log in below to access your personalized Smart Diary. 
+          Our AI-powered platform tracks your mood and guides you 
+          toward a balanced, healthier life.
+        </p>
+      </div>
 
+      <!-- Right Page: Logo and Login Form -->
+      <div class="right-page">
+        <!-- Logo -->
+        <div class="form-container">
+          <h2>Login</h2>
+          <form method="POST">
+            <label>Username:</label>
+            <input type="text" name="username" required>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        {% if category == 'login' %}
-          <div class="alert alert-info">{{ message }}</div>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
+            <label>Password:</label>
+            <input type="password" name="password" required>
 
-  <div class="login-container">
-    <h2>Login</h2>
-    <form method="POST">
-      <label>Username:</label>
-      <input type="text" name="username" required>
+            <button type="submit">Login</button>
+          </form>
 
-      <label>Password:</label>
-      <input type="password" name="password" required>
+          <p>
+            Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a>.
+          </p>
+        </div>
+      </div>
 
-      <button type="submit">Login</button>
-    </form>
-
-    <p style="margin-top: 20px;">
-      Don't have an account?
-      <a href="{{ url_for('auth.register') }}">Register here</a>.
-    </p>
+    </div>
   </div>
-
 </body>
 </html>
 {% endblock %}
-

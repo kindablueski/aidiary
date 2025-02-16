@@ -14,7 +14,7 @@ app.register_blueprint(diary_bp, url_prefix='/auth')
 
 @app.route('/')
 def home():
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.register'))
 
 @app.template_filter('format_date')
 def format_date(value):

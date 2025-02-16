@@ -34,14 +34,6 @@
     .main-content {
       margin-top: 30px;
     }
-    .tip-section {
-      margin-top: 20px;
-      background-color: #f4f4f4;
-      padding: 15px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      color: #000000;
-    }
     .latest-analysis {
       background-color: #d9d9d9;
       border: 1px solid #b3b3b3;
@@ -150,18 +142,6 @@
             </div>
             <button type="submit" class="btn comic-button">Submit Entry</button>
           </form>
-          {% with flashed = get_flashed_messages(with_categories=true) %}
-            {% if flashed %}
-              <div class="tip-section">
-                <h5>Tip / Note:</h5>
-                {% for category, message in flashed %}
-                  {% if category == 'tip' %}
-                    <p>{{ message }}</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endwith %}
         </div>
       </div>
 
@@ -214,7 +194,7 @@
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: dates,
+            labels: dates,  // Dates are still tracked
             datasets: [{
               label: 'Wellness Score',
               data: scores,
@@ -222,6 +202,18 @@
               borderColor: 'rgba(0, 0, 0, 1)',
               tension: 0.1
             }]
+          },
+          options: {
+            scales: {
+              x: {
+                ticks: {
+                  display: false  // Hide the date indexes
+                },
+                grid: {
+                  display: false
+                }
+              }
+            }
           }
         });
       })

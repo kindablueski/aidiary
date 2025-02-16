@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Register - MindWell </title>
+  <title>Disclaimer - MindWell</title>
   <style>
     html, body {
       margin: 0;
@@ -38,7 +38,7 @@
       justify-content: space-between;
     }
 
-    /* Left page: Title, tagline, description */
+    /* Left page: Title, tagline, and description */
     .left-page {
       width: 50%;
       display: flex;
@@ -47,7 +47,6 @@
       align-items: center;
       text-align: center;
       margin-left: 63px; /* Move text to the right */
-
       padding: 20px;
     }
 
@@ -55,27 +54,24 @@
       font-size: 3rem;
       margin-bottom: 10px;
       max-width: 300px;
-      margin-left: 30px; /* Increase to move further right */
-      margin-top: 90px; /* Increase to push further down */
-
+      margin-left: 30px; /* Adjust for centering */
+      margin-top: 90px; /* Adjust spacing */
     }
 
     .left-page h2 {
       font-size: 1.8rem;
       margin-bottom: 20px;
       max-width: 300px;
-
     }
 
     .left-page p {
       font-size: 1.2rem;
       line-height: 1.5;
-      max-width: 300px;
+      max-width: 350px;
       font-weight: bold;
-
     }
 
-    /* Right page: Logo & Register form */
+    /* Right page: Disclaimer content */
     .right-page {
       width: 50%;
       display: flex;
@@ -84,61 +80,30 @@
       align-items: center;
     }
 
-    
-
-    /* Register form styling */
-    .form-container {
+    /* Disclaimer text box */
+    .disclaimer-container {
       background: transparent;
       padding: 30px;
       width: 80%;
-      max-width: 270px;
+      max-width: 400px;
       border-radius: none;
       border: none;
       text-align: center;
-      margin-right: 170px; /* Increase to move further right */
+      margin-right: 100px;
       margin-top: 50px;
     }
 
-    .form-container h2 {
+    .disclaimer-container h2 {
       font-size: 2rem;
       margin-bottom: 10px;
     }
 
-    form {
-      width: 100%;
+    .disclaimer-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: left;
     }
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 5px;
-      border: 2px solid #000;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #000;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #444;
-    }
   </style>
 </head>
 <body>
@@ -148,32 +113,27 @@
       <!-- Left Page: Title, Tagline & Description -->
       <div class="left-page">
         <h1>MindWell</h1>
-        <h2>AI assistance for your mental health journey</h2>
+        <h2>Understanding Your Mental Health</h2>
         <p>
-          Sign up to the right to take a diagnostic mental health 
-          quiz and gain access to your personalized Smart Diary. 
-          Our AI-powered platform tracks your mood and guides you 
-          toward a balanced, healthier life.
+          Before taking the quiz, please read this important information about its purpose and limitations.
         </p>
       </div>
 
-      <!-- Right Page: Logo and Registration Form -->
+      <!-- Right Page: Disclaimer Content -->
       <div class="right-page">
-        <!-- Logo -->
-        <div class="form-container">
-          <h2>Register</h2>
-          <form method="POST">
-            <label>Username:</label>
-            <input type="text" name="username" required>
-
-            <label>Password:</label>
-            <input type="password" name="password" required>
-
-            <button type="submit">Register</button>
-          </form>
-
-          <p>
-            Already have an account? <a href="{{ url_for('auth.login') }}">Log in here</a>.
+        <div class="disclaimer-container">
+          <h2>Important Disclaimer</h2>
+          <p class="disclaimer-text">
+            This quiz is based on the **Patient Health Questionnaire-9 (PHQ-9)**, a widely used screening tool for symptoms of depression. 
+            However, this test is **not a substitute for professional diagnosis**. 
+            The results provided by this AI system are meant for informational purposes only and should not be used as medical advice.
+          </p>
+          <p class="disclaimer-text">
+            If you are struggling with your mental health, we strongly encourage you to speak with a licensed medical professional.
+            No AI, including Smart Diary, can replace the guidance of a qualified doctor or therapist.
+          </p>
+          <p class="disclaimer-text">
+            If you are experiencing distressing thoughts or need urgent help, please reach out to a professional or a crisis helpline in your area.
           </p>
         </div>
       </div>
