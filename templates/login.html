@@ -6,44 +6,38 @@
   <meta charset="UTF-8" />
   <title>Login</title>
   <style>
-    /* 
-      Make the page fill the full browser window and use flexbox 
-      to center everything both horizontally and vertically.
-    */
+    
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
     }
     body {
-      background-color: #023047; /* Dark navy background */
+      background-color: #023047; 
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
-      color: #023047; /* Default text color (will override in container if needed) */
+      color: #023047;
     }
 
-    /* 
-      The container that holds the form, making it larger so it 
-      doesn't look like just background behind a tiny form.
-    */
+   
     .login-container {
-      background-color: #8ecae6;   /* Lighter blue background for contrast */
-      width: 550px;               /* Increase width to occupy more space */
+      background-color: #8ecae6;   
+      width: 550px;             
       padding: 40px;
       border-radius: 8px;
-      border: 2px solid #219ebc;  /* Slightly darker blue border */
+      border: 2px solid #219ebc;  
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      text-align: center;         /* Center text within the container */
+      text-align: center;        
     }
 
     .login-container h2 {
       margin-top: 0;
-      color: #023047;            /* Dark navy text for the heading */
+      color: #023047;           
     }
 
-    /* Flash messages (if any) */
+
     .alert.alert-info {
       background-color: #fb8500;
       color: #ffffff;
@@ -52,11 +46,10 @@
       border-radius: 4px;
     }
 
-    /* Form styling */
     form {
-      display: inline-block;      /* Inline-block so it shrinks to content width */
-      width: 100%;                /* Occupy container’s width for the inputs */
-      text-align: left;           /* Left-align labels and fields inside */
+      display: inline-block;      
+      width: 100%;                
+      text-align: left;          
     }
 
     label {
@@ -68,8 +61,8 @@
 
     input[type="text"],
     input[type="password"] {
-      width: 90%;                /* Almost full width */
-      height: 50px;              /* Taller input boxes */
+      width: 90%;                
+      height: 50px;              
       font-size: 16px;
       padding: 8px;
       border: 2px solid #219ebc;
@@ -77,10 +70,10 @@
       box-sizing: border-box;
     }
 
-    /* Submit button styling */
+   
     button[type="submit"] {
       margin-top: 20px;
-      background-color: #fb8500;  /* Orange */
+      background-color: #fb8500; 
       color: #ffffff;
       border: none;
       padding: 15px 30px;
@@ -89,11 +82,11 @@
       cursor: pointer;
     }
     button[type="submit"]:hover {
-      background-color: #ffb703; /* Lighter orange on hover */
+      background-color: #ffb703; 
       color: #023047;
     }
 
-    /* Link styling */
+
     a {
       color: #023047;
       text-decoration: underline;
@@ -102,7 +95,7 @@
 </head>
 <body>
 
-  <!-- Display flash messages if any -->
+
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       {% for category, message in messages %}
@@ -113,7 +106,6 @@
     {% endif %}
   {% endwith %}
 
-  <!-- Container to center and enlarge the form area -->
   <div class="login-container">
     <h2>Login</h2>
     <form method="POST">

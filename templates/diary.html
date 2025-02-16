@@ -3,64 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>My Diary</title>
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <!-- Custom Styles (if any) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Overall page styling */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #023047; /* Dark blue background */
-      color: #ffffff;
+      background-color: #ffffff;
+      color: #000000;
     }
-    /* Navbar styling */
     .navbar {
-      background-color: #023047 !important;
+      background-color: #000000 !important;
     }
     .navbar .navbar-brand, 
     .navbar .nav-link {
       color: #ffffff !important;
     }
-    /* Container for page content */
     .container-fluid {
       padding: 20px;
     }
-    /* Main content and sidebar boxes styling */
     .main-content, .sidebar {
       background-color: #ffffff;
-      color: #023047;
+      color: #000000;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 20px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    /* Added margin-top to push the "Write a New Entry" box down */
     .main-content {
       margin-top: 30px;
     }
-    /* Tip section styling */
     .tip-section {
       margin-top: 20px;
-      background-color: #e9ecef;
+      background-color: #f4f4f4;
       padding: 15px;
       border-radius: 5px;
       border: 1px solid #ddd;
-      color: #023047;
+      color: #000000;
     }
-    /* Latest entry analysis styling */
     .latest-analysis {
-      background-color: #d9edf7;
-      border: 1px solid #bce8f1;
+      background-color: #d9d9d9;
+      border: 1px solid #b3b3b3;
       padding: 15px;
       border-radius: 5px;
       margin-bottom: 20px;
-      color: #023047;
+      color: #000000;
+      font-family: "Comic Sans MS", cursive, sans-serif;
     }
-    /* Chart container styling */
     .chart-container {
       margin-bottom: 10px;
     }
@@ -69,31 +59,59 @@
       font-weight: bold;
       text-align: center;
       margin-bottom: 20px;
-      color: #023047;
+      color: #000000;
     }
-    /* Accordion styling for past entries */
     .accordion .card {
       background-color: #ffffff;
-      color: #023047;
+      color: #000000;
       border: none;
       margin-bottom: 10px;
     }
     .accordion .card-header {
       padding: .5rem 1.25rem;
       background-color: #ffffff;
-      color: #023047;
+      color: #000000;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      border: 2px solid black;
+      border-radius: 5px;
+      text-align: center;
     }
     .entry-content {
-      font-size: 0.9em;
-      color: #023047;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      color: #000000 !important;
+    }
+    .analysis-text {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      color: #000000 !important;
+      font-size: 1em;
+      font-weight: bold;
+    }
+    .comic-title {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      color: #000000;
+    }
+    .comic-button {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+    }
+    .comic-button:hover {
+      background-color: #333333;
+    }
+    .comic-text {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      color: #000000;
+    }
+    textarea {
+      font-family: "Comic Sans MS", cursive, sans-serif !important;
     }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="{{ url_for('diary.diary') }}">My Diary</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -107,32 +125,31 @@
 
   <div class="container-fluid">
     <div class="row">
-      <!-- Main Content: Diary Entry Submission and Latest Analysis -->
       <div class="col-md-8">
         <div class="main-content">
-          <h2>Write a New Entry</h2>
+          <h2 class="comic-title">Write a New Entry</h2>
           
-          <!-- Display most recent diary entry analysis if available -->
-          {% if recent_entry %}
+          {% if entries|length == 0 %}
+            <div class="latest-analysis">
+              <h5>Diagnostic Baseline Score:</h5>
+              <p>Your initial wellness score based on the quiz: <strong>{{ diagnostic_baseline }}</strong></p>
+            </div>
+          {% elif recent_entry %}
             <div class="latest-analysis">
               <h5>Most Recent Entry ({{ recent_entry.created_at|format_date }}):</h5>
               <p>{{ recent_entry.analysis }}</p>
             </div>
           {% endif %}
-          
-          <!-- Display current wellness score -->
+
           <div class="mb-3">
-            <h5>Your current wellness score: {{ current_wellness }}/100</h5>
+            <h5 class="comic-text">Your current wellness score: {{ current_wellness }}/100</h5>
           </div>
-          <!-- Diary Entry Form -->
           <form action="{{ url_for('diary.add_entry') }}" method="POST">
             <div class="form-group">
               <textarea name="content" class="form-control" placeholder="Write your diary entry here..." rows="6" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Entry</button>
+            <button type="submit" class="btn comic-button">Submit Entry</button>
           </form>
-
-          <!-- Most Recent Tip Section (only 'tip' category messages) -->
           {% with flashed = get_flashed_messages(with_categories=true) %}
             {% if flashed %}
               <div class="tip-section">
@@ -148,32 +165,30 @@
         </div>
       </div>
 
-      <!-- Sidebar: Wellness Trend Chart and Past Diary Entries -->
       <div class="col-md-4">
         <div class="sidebar">
-          <!-- Chart Container -->
           <div class="chart-container">
             <canvas id="wellnessChart" width="400" height="250"></canvas>
           </div>
-          <!-- Trend Message -->
-          <div id="trendMessage"></div>
-          <!-- Past Entries Accordion -->
-          <h4>Past Entries</h4>
+          <div id="trendMessage" class="trend-analysis comic-text">
+            <p>{{ trend_message }}</p>
+          </div>
+          <h4 class="comic-title">Past Entries</h4>
           <div class="accordion" id="entriesAccordion">
             {% for entry in entries %}
               <div class="card">
                 <div class="card-header" id="heading{{ loop.index }}">
                   <h2 class="mb-0">
-                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                    <button class="btn btn-link btn-block text-left collapsed comic-title" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
                       {{ entry.created_at|format_date }}
                     </button>
                   </h2>
                 </div>
                 <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#entriesAccordion">
-                  <div class="card-body entry-content">
-                    <p>{{ entry.content }}</p>
+                  <div class="card-body">
+                    <p class="entry-content">{{ entry.content }}</p>
                     <hr>
-                    <p><em>Analysis:</em> {{ entry.analysis }}</p>
+                    <p class="analysis-text"><em>Analysis:</em> {{ entry.analysis }}</p>
                   </div>
                 </div>
               </div>
@@ -186,142 +201,29 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   
-  <!-- Script to load and display wellness trend chart and trend message -->
   <script>
     fetch("{{ url_for('diary.api_progress') }}")
       .then(response => response.json())
       .then(data => {
         const dates = data.dates;
         const scores = data.scores;
-        
-        // Create the chart using Chart.js
         const ctx = document.getElementById('wellnessChart').getContext('2d');
         const chart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: dates,  // Data ordering only; labels will not be displayed
+            labels: dates,
             datasets: [{
               label: 'Wellness Score',
               data: scores,
               fill: false,
-              borderColor: 'rgba(75, 192, 192, 1)',
+              borderColor: 'rgba(0, 0, 0, 1)',
               tension: 0.1
             }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: false
-              }
-            },
-            scales: {
-              x: {
-                display: false  // Hide x-axis labels for a cleaner look
-              },
-              y: {
-                suggestedMin: 0,
-                suggestedMax: 100
-              }
-            }
           }
         });
-        
-        // Analyze the trend with threshold logic
-        let trendMessage = "";
-        if (scores.length >= 2) {
-          const last = scores[scores.length - 1];
-          const prev = scores[scores.length - 2];
-          
-          if (last < 50) {
-            trendMessage = "Your current wellness score is below 50. It might help to talk to a trusted adult or do something you enjoy. You’re not alone.";
-          } else if (last > prev + 3) {
-            trendMessage = "You're on the right track!";
-          } else if (last < prev - 3) {
-            trendMessage = "You might need to take some action. Consider reaching out to someone you trust.";
-          } else {
-            trendMessage = "Your trend is steady.";
-          }
-        } else {
-          trendMessage = "Not enough data to determine trend.";
-        }
-        
-        document.getElementById("trendMessage").innerText = trendMessage;
-      })
-      .catch(error => console.error('Error fetching progress data:', error));
-  </script>
-</body>
-</html>
-
-
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- Script to load and display wellness trend chart and trend message -->
-  <script>
-    fetch("{{ url_for('diary.api_progress') }}")
-      .then(response => response.json())
-      .then(data => {
-        const dates = data.dates;
-        const scores = data.scores;
-        
-        // Create the chart using Chart.js
-        const ctx = document.getElementById('wellnessChart').getContext('2d');
-        const chart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: dates,  // Data ordering only; labels will not be displayed
-            datasets: [{
-              label: 'Wellness Score',
-              data: scores,
-              fill: false,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              tension: 0.1
-            }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: false
-              }
-            },
-            scales: {
-              x: {
-                display: false  // Hide x-axis labels for a cleaner look
-              },
-              y: {
-                suggestedMin: 0,
-                suggestedMax: 100
-              }
-            }
-          }
-        });
-        
-        // Analyze the trend with threshold logic
-        let trendMessage = "";
-        if (scores.length >= 2) {
-          const last = scores[scores.length - 1];
-          const prev = scores[scores.length - 2];
-          
-          if (last < 50) {
-            trendMessage = "Your current wellness score is below 50. It might help to talk to a trusted adult or do something you enjoy. You’re not alone.";
-          } else if (last > prev + 3) {
-            trendMessage = "You're on the right track!";
-          } else if (last < prev - 3) {
-            trendMessage = "You might need to take some action. Consider reaching out to someone you trust.";
-          } else {
-            trendMessage = "Your trend is steady.";
-          }
-        } else {
-          trendMessage = "Not enough data to determine trend.";
-        }
-        
-        document.getElementById("trendMessage").innerText = trendMessage;
       })
       .catch(error => console.error('Error fetching progress data:', error));
   </script>
